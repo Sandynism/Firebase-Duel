@@ -10,6 +10,10 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
         crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <!-- <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase.js"></script> -->
+    <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-messaging.js"></script>
     <title>Rock Paper Scissors</title>
 </head>
 <body>
@@ -20,11 +24,16 @@
         <div class="welcome-message">Sup dude, please enter your name <i class="far fa-hand-point-down"></i> to get started!</div>
         <form>
         <div class="form-group col-sm-12">
-                <!-- <label for="player-name">Your Name</label> -->
+            <div class="online-status"> 
+                <!-- <i class="far fa-heart"></i>  -->
+                <span id="connected-viewers"></span> <i class="fas fa-user"></i> online 
+                <i class="far fa-heart"></i> 
+            </div>
             <input class="form-control" id="player-name" type="text" placeholder="Your Name">
             <button class="btn btn-primary" id="submit-name" type="submit">Submit</button>
         </div>
         </form>
+        <div class="game-directions">What will it be? Select Rock, Paper or Scissors to win!</div>
     </div>
 
     <div class="game-page hide">
@@ -37,7 +46,10 @@
                     <div class="scissor"><img src="assets/images/scissor.gif" alt="Scissor" width=150px></div>
                 </div>
 
-                <div class="game-status"></div>
+                <div class="game-status">
+                    <!-- testing images out -->
+                    <img src="assets/images/paper-angry-lose.gif" alt="TP" width=200px height=200px>
+                </div>
 
                 <div class="player2">
                     <h1>Player 2</h1>
@@ -57,8 +69,8 @@
                 </div>
 
                 <div class="chat-box">
-                    <div class="text-display"></div>
-                    <textarea name="" id="" cols="20" rows="5" class="user-chat"></textarea>
+                    <div class="messages"></div>
+                    <textarea name="" id="message-input" cols="20" rows="5" class="user-chat"></textarea>
                     <br>
                     <button class="btn btn-primary" id="send-message" type="submit">Send</button>
                 </div>
