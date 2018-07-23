@@ -2,6 +2,12 @@
     display: none;
 } */
 
+body {
+    font-family: 'Old Standard TT';
+    font-size: 16px;
+    letter-spacing: 2px;
+}
+
 .game-area {
     display: flex;
     /* justify-content: space-between; */
@@ -15,6 +21,13 @@
     margin: 5px;
     width: 200px;
     text-align: center;
+    font-family: 'Gaegu';
+    font-size: 30px;
+    letter-spacing: 2px;
+}
+
+#player-name, #submit-name {
+    margin-top: 3px;
 }
 
 .rock, .paper, .scissor {
@@ -28,7 +41,8 @@
 }
 
 .rock:hover, .paper:hover, .scissor:hover {
-    border: 2px dotted blue;
+    border: 4px dotted rgb(45, 96, 153);
+    border-radius: 20px;
 }
 
 .form-control {
@@ -47,14 +61,13 @@
     border-color: #8ad3d3
 }
 
-#player-name, #submit-name {
-    margin-top: 3px;
-}
-
 .score-tracker {
     border: 3px double black;
     width: 200px;
     height: 100px;
+    font-family: 'Gaegu';
+    font-size: 20px;
+    letter-spacing: 3px;
 }
 
 .text-display {
