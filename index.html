@@ -16,27 +16,55 @@
 
     <div class="container">
 
-        <!-- <div class="jumbotron text-center">
-            <h1>Rock Paper Scissors</h1>
-        </div> -->
-    <div class="welcome-screen">
-        <div class="welcome-message text-center">Sup dude, please enter your name <i class="far fa-hand-point-down"></i> to get started!</div>
+    <div class="welcome-screen text-center">
+        <div class="welcome-message">Sup dude, please enter your name <i class="far fa-hand-point-down"></i> to get started!</div>
         <form>
-        <div class="form-group">
-                <label for="player-name">Your Name</label>
-            <input class="form-control" id="player-name" type="text">
+        <div class="form-group col-sm-12">
+                <!-- <label for="player-name">Your Name</label> -->
+            <input class="form-control" id="player-name" type="text" placeholder="Your Name">
             <button class="btn btn-primary" id="submit-name" type="submit">Submit</button>
         </div>
         </form>
     </div>
 
-    <div class="chat-box">
-        <div class="text-display"></div>
-        <textarea name="" id="" cols="20" rows="5" class="user-chat"></textarea>
-        <button class="btn btn-primary" id="send-message" type="submit">Send</button>
+    <div class="game-page hide">
+        <div class="row">
+            <div class="game-area col-md-10">
+                <div class="player1">
+                    <h1>Player 1</h1>
+                    <div class="rock"><img src="assets/images/rock.gif" alt="Rock" width=150px height=150px></div>
+                    <div class="paper"><img src="assets/images/paper.gif" alt="Paper" width=150px></div>
+                    <div class="scissor"><img src="assets/images/scissor.gif" alt="Scissor" width=150px></div>
+                </div>
+
+                <div class="game-status"></div>
+
+                <div class="player2">
+                    <h1>Player 2</h1>
+                    <div class="rock"><img src="assets/images/rock.gif" alt="Rock" width=150px height=150px></div>
+                    <div class="paper"><img src="assets/images/paper.gif" alt="Paper" width=150px></div>
+                    <div class="scissor"><img src="assets/images/scissor.gif" alt="Scissor" width=150px></div>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="score-tracker">
+                    WINS:
+                    <span id="wins"></span>
+                    <br>
+                    LOSSES:
+                    <span id="losses"></span>
+                </div>
+
+                <div class="chat-box">
+                    <div class="text-display"></div>
+                    <textarea name="" id="" cols="20" rows="5" class="user-chat"></textarea>
+                    <br>
+                    <button class="btn btn-primary" id="send-message" type="submit">Send</button>
+                </div>
+            </div>
+        </div>
     </div>
-    
-    <div class="game-area"></div>
 
     </div>
 

@@ -1,0 +1,76 @@
+/* .hide {
+    display: none;
+} */
+
+.game-area {
+    display: flex;
+    /* justify-content: space-between; */
+}
+
+#player-name {
+    width: 200px;
+}
+
+.player1, .player2 {
+    margin: 5px;
+    width: 200px;
+    text-align: center;
+}
+
+.rock, .paper, .scissor {
+    /* padding-left: 25px; */
+}
+
+.game-status {
+    border: 4px double black;
+    width: 500px;
+    height: 520px;
+}
+
+.rock:hover, .paper:hover, .scissor:hover {
+    border: 2px dotted blue;
+}
+
+.form-control {
+    margin: 0 auto;
+}
+
+.btn-primary {
+    color: #212529;
+    background-color: #7cc;
+    border-color: #5bc2c2
+}
+
+.btn-primary:hover {
+    color: #212529;
+    background-color: #52bebe;
+    border-color: #8ad3d3
+}
+
+#player-name, #submit-name {
+    margin-top: 3px;
+}
+
+.score-tracker {
+    border: 3px double black;
+    width: 200px;
+    height: 100px;
+}
+
+.text-display {
+    border: 3px double black;
+    height: 250px;
+    /* width: 200px; */
+}
+
+.chat-box {
+   /* border: 3px solid blue; */
+   margin-top: 10px;
+   height: 400px;
+   width: 200px;
+}
+
+.user-chat {
+    margin-top: 5px;
+}
+
