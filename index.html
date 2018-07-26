@@ -10,10 +10,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
         crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
-    <!-- <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase.js"></script> -->
-    <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-messaging.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase.js"></script>
     <title>Rock Paper Scissors</title>
 </head>
 <body>
@@ -21,20 +18,21 @@
     <div class="container">
 
     <div class="welcome-screen text-center">
+        <div class="welcomeImg"><img src="assets/images/secondary/rps-logo.png" alt="logo" width=100px height=100px></div>
         <div class="welcome-message">Sup dude, please enter your name <i class="far fa-hand-point-down"></i> to get started!</div>
         <form>
-        <div class="form-group col-sm-12">
-            <div class="online-status"> 
-                <!-- <i class="far fa-heart"></i>  -->
-                <span id="connected-viewers"></span> <i class="fas fa-user"></i> online 
-                <i class="far fa-heart"></i> 
-            </div>
+        <div class="form-group">
             <input class="form-control" id="player-name" type="text" placeholder="Your Name">
             <button class="btn btn-primary" id="submit-name" type="submit">Submit</button>
         </div>
         </form>
-        <div class="game-directions">What will it be? Select Rock, Paper or Scissors to win!</div>
     </div>
+
+    <div class="online-status text-center"> 
+        <span id="connected-viewers"></span> <i class="fas fa-user"></i> online 
+        <i class="far fa-heart"></i> 
+    </div>
+    <div class="game-directions text-center hide">What will it be? Select Rock, Paper or Scissors to win!</div>
 
     <div class="game-page hide">
         <div class="row">
@@ -78,6 +76,8 @@
         </div>
     </div>
 
+    <div class="footer">Built with love <i class="fas fa-heart"></i> by Sandy</div>
+
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -96,6 +96,7 @@ when player 2 joins, both player have option to start game (button appears or li
 start game only when there are two players
 player selection function
 rock paper scissors win lose or tie function
+hide the gifs when you are waiting for opponent to choose, then display again when its next turn
 game win or lose counter
 live player chat -->
 

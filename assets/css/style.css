@@ -1,6 +1,6 @@
-/* .hide {
+.hide {
     display: none;
-} */
+}
 
 body {
     font-family: 'Old Standard TT';
@@ -8,13 +8,48 @@ body {
     letter-spacing: 2px;
 }
 
-/* .online {
-    font-size: 18px;
-} */
+.welcome-screen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 500px;
+    height: 250px;
+    margin-top: -100px;
+    margin-left: -250px;
+    background-color: rgb(82, 126, 126);
+    z-index: 99;
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow:0px 0px 50px 15px #95bdb5 ;
+
+}
+
+.game-page {
+    margin-top: 20px;
+}
 
 .game-area {
     display: flex;
     /* justify-content: space-between; */
+}
+
+.form-control {
+    margin: 10px auto;
+}
+
+.welcome-message {
+    margin-top: 10px;
+}
+
+.online-status {
+    font-size: 20px;
+}
+
+.footer {
+    position: fixed;
+    bottom: 5%;
+    left: 50%;
+    margin-left: -110px;
 }
 
 #player-name {
@@ -49,9 +84,7 @@ body {
     border-radius: 20px;
 }
 
-.form-control {
-    margin: 0 auto;
-}
+
 
 .btn-primary {
     color: #212529;
