@@ -1,4 +1,4 @@
-//document ready
+//Document ready.
 $(function() { 
 let config = {
     apiKey: "AIzaSyBoLOrRydq3VrF-i3YZlR9d5ihLBWkINZY",
@@ -10,7 +10,7 @@ let config = {
 }
 firebase.initializeApp(config);
 
-//Game variables
+//Game variables.
 let player = {}
 let otherPlayer = {}
 let p1wins
@@ -20,7 +20,7 @@ let p2losses
 let ties
 let choices = ['rock', 'paper', 'scissor']
 
-// Links to Firebase Database
+// Links to Firebase Database.
 let database = firebase.database()
 let connectionsRef = database.ref('/connections')
 let connectedRef = database.ref('.info/connected')
@@ -35,7 +35,15 @@ connectedRef.on("value", function (snapshot) {
     if (snapshot.val()) {
         let connection = connectionsRef.push(true)
         connection.onDisconnect().remove()
-        playerInfo(connection.key)
+       
+        if ($.isEmptyObject(player) && $.isEmptyObject(otherPlayer)) {
+            player.id = connection.key 
+            playerInfo(player)
+        } else if ($.isEmptyObject(otherPlayer)) {
+            otherPlayer.id = connection.key
+            playerInfo(otherPlayer)
+        }
+        //need disconnect value
     }
 })
 // Add ourselves to presence list when online.
@@ -46,7 +54,7 @@ connectionsRef.on("value", function (snapshot) {
 // let playerInfo = () => 
 //     name = $("#player-name").val().trim()
 
-//On submit-name, the player's name is pushed into database
+//On submit-name, the player's name is pushed into database.
 $("#submit-name").on('click', function () {
     event.preventDefault()
     name = $("#player-name").val()
@@ -58,11 +66,11 @@ $("#submit-name").on('click', function () {
 })
 
 
-let playerInfo = (id) => { 
+let playerInfo = (currPlayer) => { 
     $("#submit-name").on('click', function () {
+        event.preventDefault()
         if ($("#player-name").val()) {
-            player.id = id
-            player.name = $("#player-name").val().trim()
+            currPlayer.name = $("#player-name").val().trim()
             gameDisplay()
         }
     })
@@ -70,7 +78,8 @@ let playerInfo = (id) => {
 
 function gameDisplay() {
     $(".welcome-screen").addClass("hide")
-    $(".game-diretions").removeClass("hide")
+    $(".footer").addClass("hide")
+    $(".game-directions").removeClass("hide")
     $(".game-page").removeClass("hide")
 }
 

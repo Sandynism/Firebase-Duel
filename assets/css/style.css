@@ -42,7 +42,7 @@ body {
 }
 
 .online-status {
-    font-size: 20px;
+    font-size: 15px;
 }
 
 .footer {
@@ -69,10 +69,6 @@ body {
     margin-top: 3px;
 }
 
-.rock, .paper, .scissor {
-    /* padding-left: 25px; */
-}
-
 .game-status {
     border: 4px double black;
     width: 500px;
@@ -83,8 +79,6 @@ body {
     border: 4px dotted rgb(45, 96, 153);
     border-radius: 20px;
 }
-
-
 
 .btn-primary {
     color: #212529;
@@ -101,11 +95,12 @@ body {
 .score-tracker {
     border: 3px double black;
     width: 200px;
-    height: 100px;
+    height: 60px;
     font-family: 'Gaegu';
-    font-size: 20px;
-    letter-spacing: 3px;
+    font-size: 15px;
+    letter-spacing: 2px;
 }
+
 
 .messages {
     border: 3px double black;
