@@ -57,11 +57,6 @@ $("#submit-name").on('click', function () {
     // })
 })
 
-// playersRef.on('child_added', function(childSnapshot) {
-//     let key = childSnapshot.key()
-//     name[key] = childSnapshot.val().name
-    
-// })
 
 let playerInfo = (id) => { 
     $("#submit-name").on('click', function () {
