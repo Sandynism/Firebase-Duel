@@ -1,5 +1,6 @@
 //Document ready.
 $(function() { 
+
 let config = {
     apiKey: "AIzaSyBoLOrRydq3VrF-i3YZlR9d5ihLBWkINZY",
     authDomain: "learn-firebase-3883f.firebaseapp.com",
@@ -19,12 +20,13 @@ let p1losses
 let p2losses 
 let ties
 let choices = ['rock', 'paper', 'scissor']
+let currentPlayer = ""
 
 // Links to Firebase Database.
 let database = firebase.database()
 let connectionsRef = database.ref('/connections')
 let connectedRef = database.ref('.info/connected')
-let playersRef = database.ref('/playersRef')
+let playersRef = database.ref('/players')
 let turnRef = database.ref('/turn')
 let chatRef = database.ref('/chat')
 
@@ -35,46 +37,39 @@ connectedRef.on("value", function (snapshot) {
     if (snapshot.val()) {
         let connection = connectionsRef.push(true)
         connection.onDisconnect().remove()
-       
-        if ($.isEmptyObject(player) && $.isEmptyObject(otherPlayer)) {
-            player.id = connection.key 
-            playerInfo(player)
-        } else if ($.isEmptyObject(otherPlayer)) {
-            otherPlayer.id = connection.key
-            playerInfo(otherPlayer)
-        }
-        //need disconnect value
     }
 })
+
 // Add ourselves to presence list when online.
 connectionsRef.on("value", function (snapshot) {
     $("#connected-viewers").text(snapshot.numChildren())
 })
 
-// let playerInfo = () => 
-//     name = $("#player-name").val().trim()
 
 //On submit-name, the player's name is pushed into database.
 $("#submit-name").on('click', function () {
     event.preventDefault()
-    name = $("#player-name").val()
-    // let player = playerInfo() ??
-    // database.ref().push({
-    //     name: name,
-    //     dateAdded: firebase.database.ServerValue.TIMESTAMP
-    // })
+    let name = $("#player-name").val()
+
+    playersRef.once('value', snapshot => {
+        if (!snapshot.child('player1').exists()) {
+            currentPlayer = 'player1'
+            playersRef.child('player1').set({
+                name: name
+            })
+        } else if (snapshot.child('player1').exists() && !snapshot.child('player2').exists()) {
+            currentPlayer = 'player2'
+            playersRef.child('player2').set({
+                name: name
+            })
+        }
+        playersRef.child(currentPlayer).onDisconnect().remove()
+
+    })
+
+    gameDisplay()
 })
 
-
-let playerInfo = (currPlayer) => { 
-    $("#submit-name").on('click', function () {
-        event.preventDefault()
-        if ($("#player-name").val()) {
-            currPlayer.name = $("#player-name").val().trim()
-            gameDisplay()
-        }
-    })
-}
 
 function gameDisplay() {
     $(".welcome-screen").addClass("hide")
@@ -82,8 +77,6 @@ function gameDisplay() {
     $(".game-directions").removeClass("hide")
     $(".game-page").removeClass("hide")
 }
-
-
 
 }) //end of page
 
