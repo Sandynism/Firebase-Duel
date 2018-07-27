@@ -60,8 +60,6 @@ $("#submit-name").on('click', function () {
                 name: name
             })
         } else if (snapshot.child('player1').exists() && !snapshot.child('player2').exists()) {
-            player1 = snapshot.val().player1
-            $('#player1').text(player1.name)
             currentPlayer = 'player2'
             $('#player2').text(name)
 
@@ -70,11 +68,35 @@ $("#submit-name").on('click', function () {
             })
         }
         playersRef.child(currentPlayer).onDisconnect().remove()
+        gameDisplay()
 
     })
 
-    gameDisplay()
+    if (currentPlayer === 'player1') {
+        $('.choices2').hide()
+        $('.fake-choices1').hide()
+
+        // $('.choices2').prop('onclick', null)
+    } else if (currentPlayer === 'player2') {
+        $('.choices1').hide()
+        $('.fake-choices2').hide()
+    }
 })
+
+    // Checks to see if player is added, adds to current players page.
+    database.ref().on('value', snapshot => {
+        if (!snapshot.val().players) return
+
+        if (snapshot.val().players.player1) {
+			let name = snapshot.val().players.player1.name
+            $('#player1').text(name)
+        }  
+        
+        if (snapshot.val().players.player2) {
+			let name = snapshot.val().players.player2.name
+            $('#player2').text(name)
+        }   
+    })
 
 
 function gameDisplay() {
@@ -82,7 +104,47 @@ function gameDisplay() {
     $(".footer").addClass("hide")
     $(".game-directions").removeClass("hide")
     $(".game-page").removeClass("hide")
+    console.log(currentPlayer)
 }
+
+// $('.choices1').find('.rock').on('click', function () {
+//     $('.choices1 .paper').hide()
+//     $('.choices1 .scissor').hide()
+// })
+// $('.choices1').find('.paper').on('click', function () {
+//     $('.choices1 .rock').hide()
+//     $('.choices1 .scissor').hide()
+// })
+// $('.choices1').find('.scissor').on('click', function () {
+//     $('.choices1 .rock').hide()
+//     $('.choices1 .paper').hide()
+// })
+// $('.choices2').find('.rock').on('click', function () {
+//     $('.choices2 .paper').hide()
+//     $('.choices2 .scissor').hide()
+// })
+// $('.choices2').find('.paper').on('click', function () {
+//     $('.choices2 .rock').hide()
+//     $('.choices2 .scissor').hide()
+// })
+// $('.choices2').find('.scissor').on('click', function () {
+//     $('.choices2 .rock').hide()
+//     $('.choices2 .paper').hide()
+// })
+
+
+let choice1 = $('.choices1')
+choice1.click(function () { 
+if($(this).attr("class") == "rock") {
+    $('.choices1 .paper').hide()
+    $('.choices1 .scissor').hide()
+}
+else if ($(this).attr("class") == "paper") {
+    $('.choices1 .rock').hide()
+    $('.choices1 .scissor').hide()
+}
+})
+
 
 }) //end of page
 

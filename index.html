@@ -36,28 +36,49 @@
 
     <div class="game-page hide">
         <div class="row">
-            <div class="game-area col-md-10">
+            <div class="game-area col-md-12">
                 <div class="player1">
-                    <h1 id="player1"></h1>
-                    <div class="rock"><img src="assets/images/rock.gif" alt="Rock" width=150px height=150px></div>
-                    <div class="paper"><img src="assets/images/paper.gif" alt="Paper" width=150px></div>
-                    <div class="scissor"><img src="assets/images/scissor.gif" alt="Scissor" width=150px></div>
+                    <h1 id="player1">Waiting...</h1>
+                    <div class="choices1">
+                        <div class="rock"><img src="assets/images/rock.gif" alt="Rock" width=150px height=150px></div>
+                        <div class="paper"><img src="assets/images/paper.gif" alt="Paper" width=150px></div>
+                        <div class="scissor"><img src="assets/images/scissor.gif" alt="Scissor" width=150px></div>
+                    </div>  
+                    <div class="fake-choices1">
+                        <div class="frock"><img src="assets/images/rock.gif" alt="Rock" width=150px height=150px></div>
+                        <div class="fpaper"><img src="assets/images/paper.gif" alt="Paper" width=150px></div>
+                        <div class="fscissor"><img src="assets/images/scissor.gif" alt="Scissor" width=150px></div>
+                    </div>  
                 </div>
 
                 <div class="game-status">
+                    <div class="score-tracker">
+                            WINS:
+                            <span id="wins"></span>
+                            <br>
+                            LOSSES:
+                            <span id="losses"></span>
+                        </div>
                     <!-- testing images out -->
                     <!-- <img src="assets/images/paper-angry-lose.gif" alt="TP" width=200px height=200px> -->
                 </div>
 
                 <div class="player2">
-                    <h1 id="player2"></h1>
-                    <div class="rock"><img src="assets/images/rock.gif" alt="Rock" width=150px height=150px></div>
-                    <div class="paper"><img src="assets/images/paper.gif" alt="Paper" width=150px></div>
-                    <div class="scissor"><img src="assets/images/scissor.gif" alt="Scissor" width=150px></div>
+                    <h1 id="player2">Waiting...</h1>
+                    <div class="choices2">
+                        <div class="rock"><img src="assets/images/rock.gif" alt="Rock" width=150px height=150px></div>
+                        <div class="paper"><img src="assets/images/paper.gif" alt="Paper" width=150px></div>
+                        <div class="scissor"><img src="assets/images/scissor.gif" alt="Scissor" width=150px></div>
+                    </div>
+                    <div class="fake-choices2">
+                        <div class="frock"><img src="assets/images/rock.gif" alt="Rock" width=150px height=150px></div>
+                        <div class="fpaper"><img src="assets/images/paper.gif" alt="Paper" width=150px></div>
+                        <div class="fscissor"><img src="assets/images/scissor.gif" alt="Scissor" width=150px></div>
+                    </div>
                 </div>
             </div>
 
-            <div class="col-md-2">
+            <!-- <div class="col-md-2">
                 <div class="score-tracker">
                     WINS:
                     <span id="wins"></span>
@@ -72,7 +93,7 @@
                     <br>
                     <button class="btn btn-primary" id="send-message" type="submit">Send</button>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 

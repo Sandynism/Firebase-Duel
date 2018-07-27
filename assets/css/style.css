@@ -30,7 +30,7 @@ body {
 
 .game-area {
     display: flex;
-    /* justify-content: space-between; */
+    justify-content: space-between;
 }
 
 .form-control {
