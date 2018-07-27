@@ -60,9 +60,11 @@ $("#submit-name").on('click', function () {
                 name: name
             })
         } else if (snapshot.child('player1').exists() && !snapshot.child('player2').exists()) {
+            player1 = snapshot.val().player1
+            $('#player1').text(player1.name)
             currentPlayer = 'player2'
             $('#player2').text(name)
-            
+
             playersRef.child('player2').set({
                 name: name
             })
