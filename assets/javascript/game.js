@@ -12,14 +12,11 @@ let config = {
 firebase.initializeApp(config);
 
 //Game variables.
-let player = {}
-let otherPlayer = {}
-let p1wins
-let p2wins
-let p1losses
-let p2losses 
+let p1wins = 0
+let p2wins = 0
+let p1losses = 0
+let p2losses = 0
 let ties
-let choices = ['rock', 'paper', 'scissor']
 let currentPlayer = ""
 
 // Links to Firebase Database.
@@ -30,8 +27,14 @@ let playersRef = database.ref('/players')
 let turnRef = database.ref('/turn')
 let chatRef = database.ref('/chat')
 
+function gameDisplay() {
+    $(".welcome-screen").addClass("hide")
+    $(".footer").addClass("hide")
+    $(".game-directions").removeClass("hide")
+    $(".game-page").removeClass("hide")
+    console.log(currentPlayer)
+}
 
-// function onlineStatus() 
 //Listening for players.
 connectedRef.on("value", function (snapshot) {
     if (snapshot.val()) {
@@ -57,93 +60,158 @@ $("#submit-name").on('click', function () {
             $('#player1').text(name)
 
             playersRef.child('player1').set({
-                name: name
+                name: name,
+                move: ""
             })
         } else if (snapshot.child('player1').exists() && !snapshot.child('player2').exists()) {
             currentPlayer = 'player2'
             $('#player2').text(name)
 
             playersRef.child('player2').set({
-                name: name
+                name: name,
+                move: ""
             })
         }
         playersRef.child(currentPlayer).onDisconnect().remove()
         gameDisplay()
 
     })
+})
+
+// Checks to see if player is added, adds to current players page.
+database.ref().on('value', snapshot => {
+    if (!snapshot.val().players) return
+    let player1 = snapshot.val().players.player1
+    let player2 = snapshot.val().players.player2
 
     if (currentPlayer === 'player1') {
         $('.choices2').hide()
         $('.fake-choices1').hide()
-
-        // $('.choices2').prop('onclick', null)
     } else if (currentPlayer === 'player2') {
         $('.choices1').hide()
         $('.fake-choices2').hide()
     }
+
+    if (player1) {
+        $('#player1').text(player1.name)
+    }  
+    
+    if (player2) {
+        $('#player2').text(player2.name)
+    }
+    
+    // If player1 and player2 made their moves, revert their moves back to empty string
+    if (player1.move && player2.move) {
+        console.log('Player1 chose', player1.move)
+        console.log('Player2 chose', player2.move)
+        checkWinner(player1.move, player2.move)
+
+        playersRef.child('player1').update({
+            move: ""
+        }).then(() => {
+            if (currentPlayer === 'player1') {
+                $('.choices1').show()
+            }
+        })
+
+        playersRef.child('player2').update({
+            move: ""
+        }).then(() => {
+            if (currentPlayer === 'player2') {
+                $('.choices2').show()
+            }
+        })
+
+    }
+
 })
 
-    // Checks to see if player is added, adds to current players page.
-    database.ref().on('value', snapshot => {
-        if (!snapshot.val().players) return
+function checkWinner(player1, player2) {
+    
+    if (player1 === 'Rock' && player2 === 'Paper') {
+        console.log('Player2 wins!')
+        player2win()
+    } 
+    if (player1 === 'Rock' && player2 === 'Scissor') {
+        console.log('Player1 wins!')
+        player1win()
+    }
+    if (player1 === 'Rock' && player2 === 'Rock') {
+        console.log('IT`S A TIE!')
+    }
+    if (player1 === 'Paper' && player2 === 'Rock') {
+        console.log('Player1 wins!')
+        player1win()
+    }
+    if (player1 === 'Paper' && player2 === 'Scissor') {
+        console.log('Player2 wins!')
+        player2win()
+    }
+    if (player1 === 'Paper' && player2 === 'Paper') {
+        console.log('IT`S A TIE!')
+    } 
+    if (player1 === 'Scissor' && player2 === 'Paper') {
+        console.log('Player1 wins!')
+        player1win()
+    }
+    if (player1 === 'Scissor' && player2 === 'Rock') {
+        console.log('Player2 wins!')
+        player2win()
+    } 
+    if (player1 === 'Scissor' && player2 === 'Scissor') {
+        console.log('IT`S A TIE!')
+    } 
+}
 
-        if (snapshot.val().players.player1) {
-			let name = snapshot.val().players.player1.name
-            $('#player1').text(name)
-        }  
-        
-        if (snapshot.val().players.player2) {
-			let name = snapshot.val().players.player2.name
-            $('#player2').text(name)
-        }   
+function player1win() {
+    if (currentPlayer === 'player1') {
+        p1wins++
+        $('#wins').text(p1wins)
+    } else {
+        p2losses++
+        $('#losses').text(p2losses)
+    }   
+}
+
+function player2win() {
+    if (currentPlayer === 'player2') {
+        p2wins++
+        $('#wins').text(p2wins)
+    } else {
+        p1losses++
+        $('#losses').text(p1losses)
+    }   
+}
+//make a tie game function of sort
+
+// Let player1 choose their move
+$('.choices1').on('click', function (event) { 
+    playersRef.once('value', snapshot => {
+        if(snapshot.child('player2').exists()) {
+            let choice = event.target.alt
+            playersRef.child('player1').update({
+                move: choice
+            })
+        }
     })
+    $('.choices1').hide()
 
-
-function gameDisplay() {
-    $(".welcome-screen").addClass("hide")
-    $(".footer").addClass("hide")
-    $(".game-directions").removeClass("hide")
-    $(".game-page").removeClass("hide")
-    console.log(currentPlayer)
-}
-
-// $('.choices1').find('.rock').on('click', function () {
-//     $('.choices1 .paper').hide()
-//     $('.choices1 .scissor').hide()
-// })
-// $('.choices1').find('.paper').on('click', function () {
-//     $('.choices1 .rock').hide()
-//     $('.choices1 .scissor').hide()
-// })
-// $('.choices1').find('.scissor').on('click', function () {
-//     $('.choices1 .rock').hide()
-//     $('.choices1 .paper').hide()
-// })
-// $('.choices2').find('.rock').on('click', function () {
-//     $('.choices2 .paper').hide()
-//     $('.choices2 .scissor').hide()
-// })
-// $('.choices2').find('.paper').on('click', function () {
-//     $('.choices2 .rock').hide()
-//     $('.choices2 .scissor').hide()
-// })
-// $('.choices2').find('.scissor').on('click', function () {
-//     $('.choices2 .rock').hide()
-//     $('.choices2 .paper').hide()
-// })
-
-
-let choice1 = $('.choices1')
-choice1.click(function () { 
-if($(this).attr("class") == "rock") {
-    $('.choices1 .paper').hide()
-    $('.choices1 .scissor').hide()
-}
-else if ($(this).attr("class") == "paper") {
-    $('.choices1 .rock').hide()
-    $('.choices1 .scissor').hide()
-}
 })
+// Let player2 choose their move
+$('.choices2').on('click', function (event) { 
+    playersRef.once('value', snapshot => {
+        if(snapshot.child('player1').exists()) {
+            let choice = event.target.alt
+            playersRef.child('player2').update({
+                move: choice
+            })
+        }
+    })
+    $('.choices2').hide()
+
+})
+
+
 
 
 }) //end of page
