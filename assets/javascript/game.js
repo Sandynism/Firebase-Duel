@@ -104,6 +104,12 @@ database.ref().on('value', snapshot => {
     if (player1.move && player2.move) {
         console.log('Player1 chose', player1.move)
         console.log('Player2 chose', player2.move)
+        let p1 = `<h3>${player1.name} chose ${player1.move.toLowerCase()}</h3>`
+        let p2 = `<h3>${player2.name} chose ${player2.move.toLowerCase()}</h3>`
+        let div = $('<div>')
+        div.append(p1).append(p2)
+        $('.versus').html(div)
+
         checkWinner(player1.move, player2.move)
 
         playersRef.child('player1').update({
@@ -131,35 +137,44 @@ function checkWinner(player1, player2) {
     if (player1 === 'Rock' && player2 === 'Paper') {
         console.log('Player2 wins!')
         player2win()
+        showWinner('Paper')
     } 
     if (player1 === 'Rock' && player2 === 'Scissor') {
         console.log('Player1 wins!')
         player1win()
+        showWinner('Rock')
     }
     if (player1 === 'Rock' && player2 === 'Rock') {
         console.log('IT`S A TIE!')
+        tieGame()
     }
     if (player1 === 'Paper' && player2 === 'Rock') {
         console.log('Player1 wins!')
         player1win()
+        showWinner('Paper')
     }
     if (player1 === 'Paper' && player2 === 'Scissor') {
         console.log('Player2 wins!')
         player2win()
+        showWinner('Scissor')
     }
     if (player1 === 'Paper' && player2 === 'Paper') {
         console.log('IT`S A TIE!')
+        tieGame()
     } 
     if (player1 === 'Scissor' && player2 === 'Paper') {
         console.log('Player1 wins!')
         player1win()
+        showWinner('Scissor')
     }
     if (player1 === 'Scissor' && player2 === 'Rock') {
         console.log('Player2 wins!')
         player2win()
+        showWinner('Rock')
     } 
     if (player1 === 'Scissor' && player2 === 'Scissor') {
         console.log('IT`S A TIE!')
+        tieGame()
     } 
 }
 
@@ -170,7 +185,7 @@ function player1win() {
     } else {
         p2losses++
         $('#losses').text(p2losses)
-    }   
+    }  
 }
 
 function player2win() {
@@ -182,7 +197,24 @@ function player2win() {
         $('#losses').text(p1losses)
     }   
 }
-//make a tie game function of sort
+
+function tieGame() {
+    let div = ('<div class="tie"><img src="assets/images/secondary/tie-game.gif"/></div>')
+    $('.versusImg').html(div)
+}
+
+function showWinner(move) {
+    if (move === 'Rock') {
+        let div = ('<div class="rpsVersus"><img src="assets/images/secondary/rockWins.jpg"/></div>')
+        $('.versusImg').html(div)
+    } else if (move === 'Paper') {
+        let div = ('<div class="rpsVersus"><img src="assets/images/secondary/paperWins.jpg"/></div>')
+        $('.versusImg').html(div)
+    } else if (move === 'Scissor') {
+        let div = ('<div class="rpsVersus"><img src="assets/images/secondary/scissorWins.jpg"/></div>')
+        $('.versusImg').html(div)
+    }
+}
 
 // Let player1 choose their move
 $('.choices1').on('click', function (event) { 
@@ -195,6 +227,7 @@ $('.choices1').on('click', function (event) {
         }
     })
     $('.choices1').hide()
+    //add a waiting for other player message here
 
 })
 // Let player2 choose their move
