@@ -125,17 +125,18 @@ body {
 .messages {
     border: 3px double black;
     height: 250px;
-    /* width: 200px; */
+    margin-top: 10px;
+    overflow-y:auto;
 }
 
-.chat-box {
-   /* border: 3px solid blue; */
-   margin-top: 10px;
-   height: 400px;
-   width: 200px;
+.player-chat-box {
 }
 
 .user-chat {
     margin-top: 5px;
+}
+
+#message-input {
+    bottom: 0;
 }
 

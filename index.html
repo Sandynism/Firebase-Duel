@@ -28,12 +28,16 @@
         </form>
     </div>
 
-    <div class="online-status text-center"> 
-        <span id="connected-viewers"></span> <i class="fas fa-user"></i> online 
-        <i class="far fa-heart"></i> 
+    <div class="row">
+        <div class="col-md-12">
+            <div class="online-status text-center"> 
+                <span id="connected-viewers"></span> <i class="fas fa-user"></i> online 
+                <i class="far fa-heart"></i> 
+            </div>
+            <div class="game-directions text-center hide">What will it be? Select Rock, Paper or Scissors to win!</div>
+        </div> 
     </div>
-    <div class="game-directions text-center hide">What will it be? Select Rock, Paper or Scissors to win!</div>
-
+    
     <div class="game-page hide">
         <div class="row">
             <div class="game-area col-md-12">
@@ -78,22 +82,27 @@
                 </div>
             </div>
 
-            <!-- <div class="col-md-2">
-                <div class="score-tracker">
-                    WINS:
-                    <span id="wins"></span>
-                    <br>
-                    LOSSES:
-                    <span id="losses"></span>
-                </div>
+        </div>
 
-                <div class="chat-box">
-                    <div class="messages"></div>
-                    <textarea name="" id="message-input" cols="20" rows="5" class="user-chat"></textarea>
-                    <br>
-                    <button class="btn btn-primary" id="send-message" type="submit">Send</button>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="messages">
+                    <h3>Chatbox</h3>
+                    <div id='player-chat-box'>
+                        <ul id="player-chat"></ul>
+                    </div>
                 </div>
-            </div> -->
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="chat-box">
+                        <textarea name="" id="message-input" cols="60" rows="3" class="user-chat"></textarea>
+                        <br>
+                        <button class="btn btn-primary" id="send-message" type="submit">Send</button>
+                    </div>
+                </div>
+            </div>
+       
         </div>
     </div>
 

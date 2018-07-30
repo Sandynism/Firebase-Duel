@@ -16,15 +16,15 @@ let p1wins = 0
 let p2wins = 0
 let p1losses = 0
 let p2losses = 0
-let ties
 let currentPlayer = ""
+let p1name = ""
+let p2name = "" 
 
 // Links to Firebase Database.
 let database = firebase.database()
 let connectionsRef = database.ref('/connections')
 let connectedRef = database.ref('.info/connected')
 let playersRef = database.ref('/players')
-let turnRef = database.ref('/turn')
 let chatRef = database.ref('/chat')
 
 function gameDisplay() {
@@ -32,7 +32,6 @@ function gameDisplay() {
     $(".footer").addClass("hide")
     $(".game-directions").removeClass("hide")
     $(".game-page").removeClass("hide")
-    console.log(currentPlayer)
 }
 
 //Listening for players.
@@ -48,6 +47,12 @@ connectionsRef.on("value", function (snapshot) {
     $("#connected-viewers").text(snapshot.numChildren())
 })
 
+// Reset chat if all players leave.
+playersRef.on('value', snapshot => {
+    if (!snapshot.child('player1').exists() && !snapshot.child('player2').exists()) {
+        chatRef.remove()
+    }
+})
 
 //On submit-name, the player's name is pushed into database.
 $("#submit-name").on('click', function () {
@@ -58,6 +63,7 @@ $("#submit-name").on('click', function () {
         if (!snapshot.child('player1').exists()) {
             currentPlayer = 'player1'
             $('#player1').text(name)
+            p1name = name
 
             playersRef.child('player1').set({
                 name: name,
@@ -66,6 +72,7 @@ $("#submit-name").on('click', function () {
         } else if (snapshot.child('player1').exists() && !snapshot.child('player2').exists()) {
             currentPlayer = 'player2'
             $('#player2').text(name)
+            p2name = name
 
             playersRef.child('player2').set({
                 name: name,
@@ -74,7 +81,6 @@ $("#submit-name").on('click', function () {
         }
         playersRef.child(currentPlayer).onDisconnect().remove()
         gameDisplay()
-
     })
 })
 
@@ -84,12 +90,27 @@ database.ref().on('value', snapshot => {
     let player1 = snapshot.val().players.player1
     let player2 = snapshot.val().players.player2
 
+    if (!snapshot.val().players.player1 || !snapshot.val().players.player2) {
+        if (currentPlayer === 'player1') {
+            $('.fake-choices1').show()
+            $('.choices2').hide()
+            $('.choices1').hide()
+        } else if (currentPlayer === 'player2') {
+            $('.fake-choices2').show()
+            $('.choices1').hide()
+            $('.choices2').hide()
+        }
+        return
+    } 
+
     if (currentPlayer === 'player1') {
         $('.choices2').hide()
         $('.fake-choices1').hide()
+        $('.choices1').show()
     } else if (currentPlayer === 'player2') {
         $('.choices1').hide()
         $('.fake-choices2').hide()
+        $('.choices2').show()
     }
 
     if (player1) {
@@ -100,10 +121,8 @@ database.ref().on('value', snapshot => {
         $('#player2').text(player2.name)
     }
     
-    // If player1 and player2 made their moves, revert their moves back to empty string
+    // If player1 and player2 made their moves, revert their moves back to empty string.
     if (player1.move && player2.move) {
-        console.log('Player1 chose', player1.move)
-        console.log('Player2 chose', player2.move)
         let p1 = `<h3>${player1.name} chose ${player1.move.toLowerCase()}</h3>`
         let p2 = `<h3>${player2.name} chose ${player2.move.toLowerCase()}</h3>`
         let div = $('<div>')
@@ -129,51 +148,29 @@ database.ref().on('value', snapshot => {
         })
 
     }
-
 })
 
 function checkWinner(player1, player2) {
     
     if (player1 === 'Rock' && player2 === 'Paper') {
-        console.log('Player2 wins!')
         player2win()
         showWinner('Paper')
-    } 
-    if (player1 === 'Rock' && player2 === 'Scissor') {
-        console.log('Player1 wins!')
+    } else if (player1 === 'Rock' && player2 === 'Scissor') {
         player1win()
         showWinner('Rock')
-    }
-    if (player1 === 'Rock' && player2 === 'Rock') {
-        console.log('IT`S A TIE!')
-        tieGame()
-    }
-    if (player1 === 'Paper' && player2 === 'Rock') {
-        console.log('Player1 wins!')
+    } else if (player1 === 'Paper' && player2 === 'Rock') {
         player1win()
         showWinner('Paper')
-    }
-    if (player1 === 'Paper' && player2 === 'Scissor') {
-        console.log('Player2 wins!')
+    } else if (player1 === 'Paper' && player2 === 'Scissor') {
         player2win()
         showWinner('Scissor')
-    }
-    if (player1 === 'Paper' && player2 === 'Paper') {
-        console.log('IT`S A TIE!')
-        tieGame()
-    } 
-    if (player1 === 'Scissor' && player2 === 'Paper') {
-        console.log('Player1 wins!')
+    } else if (player1 === 'Scissor' && player2 === 'Paper') {
         player1win()
         showWinner('Scissor')
-    }
-    if (player1 === 'Scissor' && player2 === 'Rock') {
-        console.log('Player2 wins!')
+    } else if (player1 === 'Scissor' && player2 === 'Rock') {
         player2win()
         showWinner('Rock')
-    } 
-    if (player1 === 'Scissor' && player2 === 'Scissor') {
-        console.log('IT`S A TIE!')
+    } else if (player1 === player2) {
         tieGame()
     } 
 }
@@ -182,7 +179,7 @@ function player1win() {
     if (currentPlayer === 'player1') {
         p1wins++
         $('#wins').text(p1wins)
-    } else {
+    } else if (currentPlayer === 'player2') {
         p2losses++
         $('#losses').text(p2losses)
     }  
@@ -192,31 +189,28 @@ function player2win() {
     if (currentPlayer === 'player2') {
         p2wins++
         $('#wins').text(p2wins)
-    } else {
+    } else if (currentPlayer === 'player1'){
         p1losses++
         $('#losses').text(p1losses)
     }   
 }
 
 function tieGame() {
-    let div = ('<div class="tie"><img src="assets/images/secondary/tie-game.gif"/></div>')
-    $('.versusImg').html(div)
+    $('.versusImg').html('<div class="tie"><img src="assets/images/secondary/tie-game.gif"/></div>')
 }
 
+// Pick image based what winning move was.
 function showWinner(move) {
     if (move === 'Rock') {
-        let div = ('<div class="rpsVersus"><img src="assets/images/secondary/rockWins.jpg"/></div>')
-        $('.versusImg').html(div)
+        $('.versusImg').html('<div class="rpsVersus"><img src="assets/images/secondary/rockWins.jpg"/></div>')
     } else if (move === 'Paper') {
-        let div = ('<div class="rpsVersus"><img src="assets/images/secondary/paperWins.jpg"/></div>')
-        $('.versusImg').html(div)
+        $('.versusImg').html('<div class="rpsVersus"><img src="assets/images/secondary/paperWins.jpg"/></div>')
     } else if (move === 'Scissor') {
-        let div = ('<div class="rpsVersus"><img src="assets/images/secondary/scissorWins.jpg"/></div>')
-        $('.versusImg').html(div)
+        $('.versusImg').html('<div class="rpsVersus"><img src="assets/images/secondary/scissorWins.jpg"/></div>')
     }
 }
 
-// Let player1 choose their move
+// Let player1 choose their move.
 $('.choices1').on('click', function (event) { 
     playersRef.once('value', snapshot => {
         if(snapshot.child('player2').exists()) {
@@ -228,9 +222,8 @@ $('.choices1').on('click', function (event) {
     })
     $('.choices1').hide()
     //add a waiting for other player message here
-
 })
-// Let player2 choose their move
+// Let player2 choose their move.
 $('.choices2').on('click', function (event) { 
     playersRef.once('value', snapshot => {
         if(snapshot.child('player1').exists()) {
@@ -241,33 +234,36 @@ $('.choices2').on('click', function (event) {
         }
     })
     $('.choices2').hide()
+})
+
+//Chat functionality.
+$('#send-message').on('click', function() {
+    let message = $('#message-input').val()
+    if (currentPlayer === 'player1') {
+        chatRef.push({
+            message: [p1name, message]
+        })
+    } else if (currentPlayer === 'player2') {
+        chatRef.push({
+            message: [p2name, message]
+        })
+    }
 
 })
 
 
+chatRef.on('value', snapshot => {
+    $('#player-chat').empty()
+    $('#message-input').val('')
+
+    for (key in snapshot.val()) {
+        let li = `<li>${snapshot.val()[key].message[0]}: ${snapshot.val()[key].message[1]}</li>`
+        $('#player-chat').append(li)
+    }
+})
 
 
 }) //end of page
 
-// let ref = firebase.database().ref()
 
-// ref.on("value", function (snapshot) {
-//     output.innerHTML = JSON.stringify(snapshot.val(), null, 2)
-// })
-
-// Removes players when disconnected.
-// turnRef.onDisconnect().remove();
-// chatRef.onDisconnect().remove();
-
-// Loads chat messages history and listens for upcoming ones. (Taken from Firebase)
-// function loadMessages() {
-//     // Loads the last 12 messages and listen for new ones.
-//     let callback = function(snapshot) {
-//       let data = snapshot.val()
-//       displayMessage(snapshot.key, data.name, data.text)
-//     };
-  
-//     firebase.database().ref('/messages/').limitToLast(12).on('child_added', callback);
-//     firebase.database().ref('/messages/').limitToLast(12).on('child_changed', callback);
-//   }
 
