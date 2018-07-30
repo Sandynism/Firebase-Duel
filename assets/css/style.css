@@ -145,9 +145,22 @@ body {
     bottom: 0;
     margin-top: 5px;
     color: rgb(59, 88, 99);
-    background-color: rgb(139, 184, 184);
+    background-color: rgb(203, 211, 221);
 }
 
 ul {
     list-style-type: none;
+}
+
+li {
+    background-color: rgb(68, 98, 134);
+    width: 80%;
+    border: 1px solid grey;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+#send-message {
+    background-color: rgb(68, 98, 134);
+    color: rgb(99, 154, 182);
 }
