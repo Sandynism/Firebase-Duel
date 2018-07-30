@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase.js"></script>
     <title>Rock Paper Scissors</title>
-    
+
 </head>
 <body>
 
@@ -84,30 +84,26 @@
         </div>
 
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-8">
                 <div class="messages">
-                    <h3>Chatbox</h3>
                     <div id='player-chat-box'>
                         <ul id="player-chat"></ul>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="chat-box">
-                        <textarea name="" id="message-input" cols="60" rows="3" class="user-chat"></textarea>
-                        <br>
-                        <button class="btn btn-primary" id="send-message" type="submit">Send</button>
-                    </div>
+            <div class="col-md-4">
+                <div class="user-box">
+                    <textarea placeholder="Send a message" id="message-input" cols="40" rows="5"></textarea>
+                    <button class="btn btn-primary" id="send-message" type="submit">Send</button>
                 </div>
             </div>
-       
         </div>
+
     </div>
 
     <div class="footer">Built with love <i class="fas fa-heart"></i> by Sandy</div>
 
-    </div>
+    </div> 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="assets/javascript/game.js"></script>

@@ -236,16 +236,44 @@ $('.choices2').on('click', function (event) {
     $('.choices2').hide()
 })
 
+function timeStamp() {
+    // Create a date object with the current time
+      var now = new Date()
+    
+    // Create an array with the current hour, minute and second
+      var time = [ now.getHours(), now.getMinutes(), now.getSeconds() ]
+    
+    // Determine AM or PM suffix based on the hour
+      var suffix = ( time[0] < 12 ) ? "AM" : "PM"
+    
+    // Convert hour from military time
+      time[0] = ( time[0] < 12 ) ? time[0] : time[0] - 12
+    
+    // If hour is 0, set it to 12
+      time[0] = time[0] || 12
+    
+    // If seconds and minutes are less than 10, add a zero
+      for ( var i = 1; i < 3; i++ ) {
+        if ( time[i] < 10 ) {
+          time[i] = "0" + time[i]
+        }
+      }
+    
+    // Return the formatted string
+      return time.join(":") + " " + suffix
+    }
+    
+
 //Chat functionality.
 $('#send-message').on('click', function() {
     let message = $('#message-input').val()
     if (currentPlayer === 'player1') {
         chatRef.push({
-            message: [p1name, message]
+            message: [p1name, timeStamp(), message]
         })
     } else if (currentPlayer === 'player2') {
         chatRef.push({
-            message: [p2name, message]
+            message: [p2name, timeStamp(), message]
         })
     }
 
@@ -257,7 +285,7 @@ chatRef.on('value', snapshot => {
     $('#message-input').val('')
 
     for (key in snapshot.val()) {
-        let li = `<li>${snapshot.val()[key].message[0]}: ${snapshot.val()[key].message[1]}</li>`
+        let li = `<li> <b>${snapshot.val()[key].message[0].toUpperCase()}</b> ${snapshot.val()[key].message[1]}: ${snapshot.val()[key].message[2]}</li>`
         $('#player-chat').append(li)
     }
 })
